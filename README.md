@@ -35,3 +35,18 @@ A Python-based toolchain to convert SVG Smith Charts into G-code optimized for a
    ```bash
    python main.py
 4. **Verify the output using the 'gcode_visualizer.py' script before sending it to the plotter.**
+
+## 📐 Coordinate Transformation Logic
+The script automatically handles the conversion from SVG Space (Top-Left Origin) to CNC Space (Bottom-Left Origin):
+1. **Invert Y:** $Y_{cnc} = MaxY_{svg} - Y_{svg}$
+2. **Centering:** Calculates offsets based on `paper_width_mm` and `paper_height_mm` defined in the config.
+
+## 🛠️ Troubleshooting & Calibration
+* **Drag Lines:** If the pen moves before lifting, increase the `G4 P` dwell time in the G-code stream.
+* **Scale Mismatch:** If a 100mm line measures 105mm, calibrate your GRBL settings:
+   ```bash
+   New Step Value = (Current Step Value * 100) / Measured Length
+* ** Servo Jitter:** If the servo vibrates at the end of travel, adjust the S values in the configuration to avoid hitting mechanical limits. your limits will be based on your servo, plotter and controller.
+
+## 📜 License
+MIT License - Feel free to use and modify for your own DIY CNC projects.
